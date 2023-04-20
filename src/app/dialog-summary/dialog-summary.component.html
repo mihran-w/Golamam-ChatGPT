@@ -1,0 +1,81 @@
+<div class="h-screen overflow-hidden flex items-center justify-center" style="background: #edf2f7;">
+
+  <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
+    <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
+      <div class="relative flex items-center space-x-4">
+        <div class="relative">
+          <span class="absolute text-green-500 right-0 bottom-0">
+            <svg width="20" height="20">
+              <circle cx="8" cy="8" r="8" fill="currentColor"></circle>
+            </svg>
+          </span>
+          <img src="assets/gpt3-logo.jpg" alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full">
+        </div>
+        <div class="flex flex-col leading-tight">
+          <div class="text-2xl mt-1 flex items-center">
+            <span class="text-gray-700 mr-3">GPT-3</span>
+          </div>
+          <span class="text-lg text-gray-600">by OpenAI</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <a type="button" routerLink="/"
+          class="flex items-center justify-center rounded-lg border h-10 w-auto transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none px-2">
+          Informative Chat Bot
+        </a>
+      </div>
+    </div>
+    <div id="messages"
+      class="flex flex-1 flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+      <div class="chat-message" *ngFor="let message of messages">
+        <div class="flex items-end" [ngClass]="{'justify-end': message.sentBy === 'user'}">
+          <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2"
+            [ngClass]="{'items-start order-2': message.sentBy === 'bot', 'items-end order-1': message.sentBy === 'user'}">
+            <div>
+              <span class="px-4 py-2 rounded-lg inline-block"
+                [ngClass]="{'rounded-br-none bg-blue-600 text-white': message.sentBy === 'user', 'rounded-bl-none bg-gray-300 text-gray-600': message.sentBy === 'bot'}"
+                [innerHTML]="message.content"></span>
+            </div>
+          </div>
+          <img [src]="message.sentBy === 'bot' ? 'assets/gpt3-logo.jpg' : 'assets/user.png'"
+            [alt]="message.sentBy === 'bot' ? 'bot' : 'user'" class="w-6 h-6 rounded-full order-1">
+        </div>
+      </div>
+    </div>
+    <div class="flex-initial border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0" style="height: 200px;">
+      <div class="w-full h-full">
+        <textarea placeholder="Type your input and press enter to interact with GPT-3"
+          class="w-full h-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-2 bg-gray-200 rounded-md py-3"
+          (keyup.enter)="sendMessage()" [(ngModel)]="currentMessage"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .scrollbar-w-2::-webkit-scrollbar {
+    width: 0.25rem;
+    height: 0.25rem;
+  }
+
+  .scrollbar-track-blue-lighter::-webkit-scrollbar-track {
+    --bg-opacity: 1;
+    background-color: #f7fafc;
+    background-color: rgba(247, 250, 252, var(--bg-opacity));
+  }
+
+  .scrollbar-thumb-blue::-webkit-scrollbar-thumb {
+    --bg-opacity: 1;
+    background-color: #edf2f7;
+    background-color: rgba(237, 242, 247, var(--bg-opacity));
+  }
+
+  .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+    border-radius: 0.25rem;
+  }
+</style>
+
+<script>
+  const el = document.getElementById('messages')
+  el.scrollTop = el.scrollHeight
+</script>
